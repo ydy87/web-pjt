@@ -1,0 +1,44 @@
+03.19 Todo List
+
+1. start 버튼 구현: start 버튼을 누르면 우상단이 Connected로 바뀌고 웹소켓 통신을 시작한다. //끝
+
+2. stop 버튼 구현: stop 버튼을 누르면 우상단이 Disconnected로 바뀌고 통신을 종료한다. // 끝
+
+2-1 지피티 시@봉방거 허락도 없이 style바꾸네 이거부터 잡고 가자 // 끝
+
+3. 좌측 패널 구현 - mode select 구현  // 끝
+각각의 모드 버튼을 클릭하면 모드가 현재 상태에 저장되고, 상단 바 가운데에 현재 선택한 모드가 표시된다.
+ex) 아무것도 선택 안했을때는 mode: none, balancing을 선택했으면 mode:balancing 가 상단에 출력
+
+4. 좌측 패널 구현 - Robot speed 및 fixed speed 구현 // 끝
+Robot speed를 조작하면 그 값이 Robot speed 옆에 표시된다.
+Fixed speed 체크박스를 체크하면 range 조작이 잠금 된다.
+
+5. 좌측 패널 구현 - Stability 및 옵션 구현 // 끝
+현재 stability의 range 값은 0~100으로 설정되어있다. 위 speed처럼 값을 출력한다.
+옵션에서 Low sensitivity를 선택하면 25, medium sensitivity를 선택하면 50, high sensitivity를 선택하면 75로 변하게 하자.
+
+5-1 지유 돌발 퀘스트 range input을 fancy하게 꾸미기 // 끝
+
+6. Reset 버튼 구현 : Reset 버튼을 누르면 캐시 비우기 및 강력 새로고침을 누른 것처럼 데이터를 초기화하고 완전 처음 화면으로 돌아간다. // 끝
+
+7. Save Log  버튼 구현: mode, speed, stability 값을 mysql DB에 저장한 후 Logs에 출력 // 내일로 넘겨잇!
+========================================================================================
+03.20 Todo List
+
+1. 좌측 패널(모드 버튼, 옵션) 및 텍스트 fancy하게 꾸미기 // 끝
+
+2. Save Log 버튼 구현 : mode, speed, stability 값을 mysql DB에 저장한 후 Logs에 출력
+
+3. Show Data 버튼 구현: 지금까지 저장한 모든 데이터를 볼 수 있는 화면 출력
+
+========================================================================================
+보내는 DATA 예시
+
+mode : balancing / creeping
+
+speed : 15
+
+stability : 25
+
+time: 2025-03-29 15:00
