@@ -28,12 +28,13 @@ Fixed speed 체크박스를 체크하면 range 조작이 잠금 된다.
 
 1. 좌측 패널(모드 버튼, 옵션) 및 텍스트 fancy하게 꾸미기 // 끝
 
-2. Save Log 버튼 구현 : mode, speed, stability 값을 mysql DB에 저장한 후 Logs에 출력
+2. Save Log 버튼 구현 : mode, speed, stability 값을 mysql DB에 저장 // 끝
 
-3. Show Data 버튼 구현: 지금까지 저장한 모든 데이터를 볼 수 있는 화면 출력
+3. Show Data 버튼 구현: 제일 최근에 저장한 데이터를 section에 출력 // 끝
 
+4. ...근데 이제 뭐함?
 ========================================================================================
-보내는 DATA 예시
+보내는 DATA 구조
 
 mode : balancing / creeping
 
