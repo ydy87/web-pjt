@@ -55,7 +55,22 @@ async function fetchLatestLog() {
 
     const data = await response.json();
     if (data.length > 0) {
-      latestLog.value = data[0]; // 가장 최신 데이터 저장
+      const log = data[0]; // 가장 최신 데이터 저장
+
+      // ✅ 날짜 포맷 변환 (UTC → KST 변환)
+      const utcDate = new Date(log.timestamp);
+      const kstDate = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000); // UTC+9 적용
+
+      // ✅ KST 시간 포맷을 YYYY-MM-DD HH:MM:SS로 변환
+      const year = kstDate.getFullYear();
+      const month = String(kstDate.getMonth() + 1).padStart(2, "0");
+      const day = String(kstDate.getDate()).padStart(2, "0");
+      const hours = String(kstDate.getHours()).padStart(2, "0");
+      const minutes = String(kstDate.getMinutes()).padStart(2, "0");
+      const seconds = String(kstDate.getSeconds()).padStart(2, "0");
+
+      log.timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; // YYYY-MM-DD HH:MM:SS 포맷 적용
+      latestLog.value = log;
     } else {
       latestLog.value = null;
     }
@@ -230,7 +245,7 @@ async function saveLog() {
         <!-- ✅ Robot Speed -->
         <div class="range-container">
           <label>Robot speed: {{ robotSpeed }}</label>
-          <input type="range" min="1" max="30" v-model="robotSpeed" :disabled="isFixedSpeed" />
+          <input type="range" min="0" max="30" v-model="robotSpeed" :disabled="isFixedSpeed" />
         </div>
 
         <!-- ✅ Stability -->

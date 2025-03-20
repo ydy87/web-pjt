@@ -69,19 +69,6 @@ const tcpSocketServer = net.createServer((socket) => {
         return;
       }
   
-      // ✅ DB 저장 로직 제거
-      // const mode = parsedData.mode || "Unknown";
-      // const speed = parsedData.speed || 0;
-      // const stability = parsedData.stability || 0;
-      // const timestamp = new Date().toISOString();
-      // try {
-      //   const query = `INSERT INTO robot_logs (mode, speed, stability, timestamp) VALUES (?, ?, ?, ?)`;
-      //   await pool.execute(query, [mode, speed, stability, timestamp]);
-      // } catch (dbError) {
-      //   console.error("❌ MySQL 데이터 저장 오류:", dbError);
-      // }
-  
-      // ✅ WebSocket 클라이언트에게 데이터 전송 (이것만 유지)
       webSocketClients.forEach((webSocketClient) => {
         try {
           webSocketClient.send(JSON.stringify(parsedData));
