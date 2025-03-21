@@ -99,7 +99,7 @@ function createChart() {
 
 function updateChart() {
   if (chartInstance) {
-    console.log("📊 차트 업데이트: ", distanceHistory.value);
+    console.log("차트 업데이트: ", distanceHistory.value);
 
     chartInstance.data.labels = timeLabels.value; // X축 업데이트
     chartInstance.data.datasets[0].data = distanceHistory.value; // 실제 거리

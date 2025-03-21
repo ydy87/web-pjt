@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "i2c-bus": "^5.2.3",
+    "net": "^1.0.2"
+  }
+}

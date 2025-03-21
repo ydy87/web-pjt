@@ -9,7 +9,7 @@ const socket = ref(null);
 const connectionStatus = ref("Disconnected");
 const isConnected = ref(false);
 
-// ✅ 상태 변수들
+// 상태 변수들
 const selectedMode = ref("None");
 const robotSpeed = ref(15);
 const isFixedSpeed = ref(false);
@@ -19,17 +19,17 @@ const isCustomSensitivity = ref(false); // Custom 여부 확인
 const latestLog = ref(null);
 
 const obj = ref({
-  goal: { pitch: 90, roll: 90, yaw: 90 },
+  goal: { pitch: 0, roll: 0, yaw: 0 },
   current: { pitch: 0, roll: 0, yaw: 0 },
   distance: 3.0,
 });
 
-// ✅ Mode 선택 함수
+// Mode 선택 함수
 function selectMode(mode) {
   selectedMode.value = mode;
 }
 
-// ✅ Sensitivity 변경 감지
+// Sensitivity 변경 감지
 watch(sensitivity, (newVal) => {
   if (newVal === "Low Sensitivity") {
     stability.value = 25;
@@ -45,7 +45,7 @@ watch(sensitivity, (newVal) => {
   }
 });
 
-// ✅ 최신 데이터 가져오기 함수
+// 최신 데이터 가져오기 함수
 async function fetchLatestLog() {
   try {
     const response = await fetch("http://localhost:8000/api/robot-data");
@@ -57,11 +57,11 @@ async function fetchLatestLog() {
     if (data.length > 0) {
       const log = data[0]; // 가장 최신 데이터 저장
 
-      // ✅ 날짜 포맷 변환 (UTC → KST 변환)
+      // 날짜 포맷 변환 (UTC → KST 변환)
       const utcDate = new Date(log.timestamp);
       const kstDate = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000); // UTC+9 적용
 
-      // ✅ KST 시간 포맷을 YYYY-MM-DD HH:MM:SS로 변환
+      // KST 시간 포맷을 YYYY-MM-DD HH:MM:SS로 변환
       const year = kstDate.getFullYear();
       const month = String(kstDate.getMonth() + 1).padStart(2, "0");
       const day = String(kstDate.getDate()).padStart(2, "0");
@@ -80,11 +80,11 @@ async function fetchLatestLog() {
   }
 }
 
-// ✅ Reset 버튼 기능 추가
+// Reset 버튼 기능 추가
 function resetSettings() {
   console.log("🔄 Reset: 설정 초기화 및 WebSocket 강제 종료");
 
-  // ✅ 1. UI 상태 초기화
+  // 1. UI 상태 초기화
   connectionStatus.value = "Disconnected";
   isConnected.value = false;
   selectedMode.value = "None";
@@ -95,7 +95,7 @@ function resetSettings() {
   isCustomSensitivity.value = false;
   latestLog.value = null;
 
-  // ✅ 2. WebSocket 강제 종료
+  // 2. WebSocket 강제 종료
   if (socket.value !== null) {
     console.log("🔄 Reset: WebSocket 강제 종료");
     socket.value.onopen = null;
@@ -107,7 +107,7 @@ function resetSettings() {
     socket.value = null;
   }
 
-  // ✅ 3. 차트 데이터 초기화 (완전 비우기)
+  // 3. 차트 데이터 초기화 (완전 비우기)
   obj.value = {
     goal: { pitch: 0, roll: 0, yaw: 0 },
     current: { pitch: 0, roll: 0, yaw: 0 },
@@ -115,17 +115,17 @@ function resetSettings() {
   };
 }
 
-// ✅ WebSocket 연결 함수
+// WebSocket 연결 함수
 function startConnection() {
   if (socket.value !== null) {
-    console.warn("🔗 이미 WebSocket이 실행 중입니다.");
+    console.warn("이미 WebSocket이 실행 중입니다.");
     return;
   }
 
   socket.value = new WebSocket(SOCKET_URL);
 
   socket.value.onopen = () => {
-    console.log("✅ WebSocket 연결됨");
+    console.log("WebSocket 연결됨");
     connectionStatus.value = "Connected";
     isConnected.value = true;
   };
@@ -135,32 +135,32 @@ function startConnection() {
       const text = typeof event.data === "string" ? event.data : await event.data.text();
       obj.value = JSON.parse(text);
     } catch (error) {
-      console.error("❌ 데이터 파싱 오류:", error);
+      console.error("데이터 파싱 오류:", error);
     }
   };
 
   socket.value.onerror = (error) => {
-    console.error("❌ WebSocket 오류:", error);
+    console.error("WebSocket 오류:", error);
   };
 
   socket.value.onclose = () => {
-    console.log("⚠️ WebSocket 연결 종료됨");
+    console.log("WebSocket 연결 종료됨");
     connectionStatus.value = "Disconnected";
     isConnected.value = false;
     socket.value = null;
   };
 }
 
-// ✅ WebSocket 종료 함수
+// WebSocket 종료 함수
 function stopConnection() {
   if (socket.value !== null) {
-    console.log("⚠️ WebSocket 강제 종료 요청");
+    console.log("WebSocket 강제 종료 요청");
 
     if (socket.value.readyState === WebSocket.OPEN) {
       socket.value.send(JSON.stringify({ type: "CLOSE", message: "Client closed connection" }));
     }
 
-    // ✅ WebSocket 이벤트 핸들러 제거
+    // WebSocket 이벤트 핸들러 제거
     socket.value.onopen = null;
     socket.value.onmessage = null;
     socket.value.onerror = null;
@@ -187,9 +187,9 @@ async function saveLog() {
 
   const logData = {
     mode: selectedMode.value,
-    speed: parseInt(robotSpeed.value), // ✅ 숫자로 변환
-    stability: parseInt(stability.value), // ✅ 숫자로 변환
-    time: getCurrentTime(), // ✅ MySQL `DATETIME` 형식으로 변환된 시간
+    speed: parseInt(robotSpeed.value), // 숫자로 변환
+    stability: parseInt(stability.value), // 숫자로 변환
+    time: getCurrentTime(), // MySQL `DATETIME` 형식으로 변환된 시간
   };
 
   console.log("🚀 저장할 데이터:", logData);
@@ -208,10 +208,10 @@ async function saveLog() {
     }
 
     const result = await response.json();
-    console.log("✅ 서버 응답:", result);
+    console.log("서버 응답:", result);
     alert("데이터가 성공적으로 저장되었습니다.");
   } catch (error) {
-    console.error("❌ 저장 오류:", error);
+    console.error("저장 오류:", error);
     alert("데이터 저장 중 오류 발생");
   }
 }
@@ -236,19 +236,19 @@ async function saveLog() {
         <button class="btncss" @click="selectMode('Balancing')">Balancing Mode</button>
         <button class="btncss" @click="selectMode('Creeping')">Creeping Mode</button>
 
-        <!-- ✅ Fixed speed 체크박스 -->
+        <!-- Fixed speed 체크박스 -->
         <label>
           Fixed speed
           <input type="checkbox" v-model="isFixedSpeed" />
         </label>
 
-        <!-- ✅ Robot Speed -->
+        <!-- Robot Speed -->
         <div class="range-container">
           <label>Robot speed: {{ robotSpeed }}</label>
           <input type="range" min="0" max="30" v-model="robotSpeed" :disabled="isFixedSpeed" />
         </div>
 
-        <!-- ✅ Stability -->
+        <!-- Stability -->
         <div class="range-container">
           <label>Stability: {{ stability }}</label>
           <input
@@ -260,7 +260,7 @@ async function saveLog() {
           />
         </div>
 
-        <!-- ✅ Sensitivity 옵션 -->
+        <!-- Sensitivity 옵션 -->
         <div class="select-container">
           <select v-model="sensitivity" class="selectcss">
             <option>Low Sensitivity</option>
@@ -286,7 +286,7 @@ async function saveLog() {
 
     <!-- 데이터 모니터링 -->
     <section class="data-monitor">
-      <h3>Latest Saved Data</h3>
+      <h3>Latest Setting Data</h3>
       <div class="log-box">
         <div v-if="latestLog" class="log">
           <p><strong>Mode:</strong> {{ latestLog.mode }}</p>
@@ -303,8 +303,8 @@ async function saveLog() {
       <button class="start" @click="startConnection">START</button>
       <button class="stop" @click="stopConnection">STOP</button>
       <button class="reset" @click="resetSettings">RESET</button>
-      <button class="save" @click="saveLog">SAVE DATA</button>
-      <button class="show" @click="fetchLatestLog">Show Data</button>
+      <button class="save" @click="saveLog">SETTING APPLY</button>
+      <button class="show" @click="fetchLatestLog">SHOW DATA</button>
     </footer>
   </div>
 </template>
