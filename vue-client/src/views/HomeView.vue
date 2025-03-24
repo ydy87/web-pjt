@@ -48,7 +48,7 @@ watch(sensitivity, (newVal) => {
 // 최신 데이터 가져오기 함수
 async function fetchLatestLog() {
   try {
-    const response = await fetch("http://localhost:8000/api/robot-data");
+    const response = await fetch("http://121.147.32.90:8000/api/robot-data");
     if (!response.ok) {
       throw new Error("데이터 가져오기 실패");
     }
@@ -195,7 +195,7 @@ async function saveLog() {
   console.log("🚀 저장할 데이터:", logData);
 
   try {
-    const response = await fetch("http://localhost:8000/api/robot-data", {
+    const response = await fetch("http://121.147.32.90:8000/api/robot-data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
